@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato:300,700|Playfair+Display:400,900|Roboto&display=swap" rel="stylesheet">
+        <title>
+            Flair Detection
+        </title>
+    </head>
+    <body>
+        <center>
+        <form method = "POST" class="mainform">
+            <p class = "titlee"> Reddit Flair Detector </p>
+            <input type = "text" name = "link" class = "txtbx" placeholder="Enter URL Here">
+            <input type = "submit" class = "subbtn">
+            <br>
+            <p class = "captionn"> Predicted Flair: {{flair}} </p>
+        </form>
+        <div class = "fileform">
+        <p class = "filetxt"> For batch-test, upload a .txt file with 1 url per line</p>
+        <form method="POST" action="/automated_testing" enctype="multipart/form-data">
+                <label class = "subbtn">
+                    Choose file
+                <input type="file" name="upload_file" autocomplete="off" required>
+                </label>
+                <input type="submit" value="Submit" class = "subbtn">
+            </p>
+        </form>
+        </div>
+        </center>
+    </body>
+</html>
