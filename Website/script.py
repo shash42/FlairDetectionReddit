@@ -10,7 +10,7 @@ from nltk.corpus import stopwords
 from flask import Flask, render_template, request, redirect, url_for, jsonify, json
 app = Flask(__name__)
 
-reg_model = pickle.load(open("model.pickle","rb"))
+reg_model = pickle.load(open("model.pickle","rb")) #the logistic regression model
 
 reddit = praw.Reddit(client_id='EGV0l4iNPHX3zw', \
                      client_secret='cfZJqAtGpacEHzjzo6ala9IXhOc', \
@@ -34,7 +34,7 @@ label_to_id = {'AskIndia': 0,
 
 id_to_label = {v: k for k, v in label_to_id.items()}
 
-def getdata(link):
+def getdata(link): #function to get required data from link of post, explanation as in getdata.ipynb
     global subreddit
     cols = {}
     post = reddit.submission(url=link)
@@ -93,7 +93,7 @@ def only_english(text):
     rettext = " ".join(w for w in nltk.wordpunct_tokenize(text) if w.lower() in wordlist or not w.isalpha())
     return rettext
 
-def preprocess(data):
+def preprocess(data): #preprocessing and above functions same as in model.ipynb. check that for explanation
     data.fillna("",inplace = True)
     data['title'] = data['title'].apply(clean_text)
     data['body'] = data['body'].apply(clean_text)
@@ -101,18 +101,18 @@ def preprocess(data):
     data['url'] = data['url'].apply(clean_url)
     return data
 
-def Predict(data):
+def Predict(data): #predict for each row given the dataframe data
     feat = data['title'] + data['body'] + data['url'] + data['comments']
     y_pred = reg_model.predict(feat)
     return y_pred
 
-@app.route('/', methods=['POST', 'GET']) 
+@app.route('/', methods=['POST', 'GET']) #home page. classification of single url
 def root():
     flair = ''
     if request.method == 'POST':
         form = request.form
         link = form['link']
-        if(len(link) > 5):    
+        if(len(link) > 5):    #to avoid blank/urls sure to be invalid which will crash the system
             temp = {"title":[], "body":[], "comments":[], "url":[], "comms_num": []}
             post = getdata(link)
             for key, value in post.items():
@@ -124,23 +124,19 @@ def root():
     return render_template('index.html', flair = flair)
 
 @app.route("/automated_testing", methods=['POST', 'GET'])
-def test():
+def test(): #for batch classification given a .txt file, returns json
     if request.files:
         file = request.files["upload_file"]
         text = file.read()
         text = str(text.decode('utf-8'))
         text_list = text.split('\n')
-        links = [line for line in text_list if line.strip() != ""]
+        links = [line for line in text_list if line.strip() != ""] #remove empty lines
         temp = {"title":[], "body":[], "comments":[], "url":[], "comms_num": []}
-        cnt = 0
-        print(links)
-        for link in links:
-            print(cnt)
-            cnt+=1
+        for link in links: #get data of each link one by one
             post = getdata(link)
             for key, value in post.items():
                 temp[key].append(value)
-        data = pd.DataFrame.from_dict(temp)
+        data = pd.DataFrame.from_dict(temp) #final dataframe for processing
         data = preprocess(data)
         y_pred = Predict(data)
         outp = {}
