@@ -14,9 +14,9 @@ reg_model = pickle.load(open("model.pickle","rb"))
 
 reddit = praw.Reddit(client_id='EGV0l4iNPHX3zw', \
                      client_secret='cfZJqAtGpacEHzjzo6ala9IXhOc', \
-                     user_agent='flairdetectorscrape', \
-                     username='logisbase2', \
-                     password='W3codeforlife')
+                     user_agent='youruseragenthere', \
+                     username='yourusernamehere', \
+                     password='yourpasswordhere')
 subreddit = reddit.subreddit('india')
 
 flairs = ['AskIndia', 'Non-Political', 'Scheduled', 'Photography', 'Science/Technology', 'Politics', 'Business/Finance', 'Policy/Economy', 'Sports', 'Food', 'Coronavirus']
