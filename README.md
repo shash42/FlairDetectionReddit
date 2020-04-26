@@ -30,7 +30,7 @@ example.txt - A sample txt file to exemplify how to do batch url predictions.
 - You can then run the python notebook code cells in the Data folder
 - To run the flask app go in the Website folder:
 ```bash
-$ export FLASK_APP=hello.py
+$ export FLASK_APP=script.py
 $ flask run
 ```
 
