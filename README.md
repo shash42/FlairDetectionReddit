@@ -25,6 +25,17 @@ example.txt - A sample txt file to exemplify how to do batch url predictions.
 
 ### Reproducing the Project
 
+- Clone the repository
+- Run pip install -r requirements.txt in your shell
+- You can then run the python notebook code cells in the Data folder
+- To run the flask app go in the Website folder:
+```bash
+$ export FLASK_APP=hello.py
+$ flask run
+```
+
+If you face any problems feel free to contact me. I would appreciate any feedback :D
+
 ### References
 **Part 1** - Data Extraction
 - https://praw.readthedocs.io/en/latest/
